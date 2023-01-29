@@ -15,9 +15,10 @@ person:
     url: http://localhost:9191/api
 opentracing:
   jaeger:
-    http-sender:
-      url: ${OPENTRACING_JAEGER_HTTP_SERVER_URL:http://localhost:14268/api/traces}
     service-name: client
+    enabled: true
+    udp-sender:
+      host: ${JAEGER_HOST:localhost}
 server:
   port: '9090'
 logging:
