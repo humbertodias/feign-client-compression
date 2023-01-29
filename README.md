@@ -68,6 +68,27 @@ Transfer-Encoding: chunked
 Date: Sun, 29 Jan 2023 01:29:08 GMT
 ```
 
+# Result
+
+```
+./result.sh
+
+-rw-r--r--  1 cex  staff    96K Jan 29 15:02 999.json
+-rw-r--r--  1 cex  staff    96K Jan 29 15:02 999.json.gz
+-rw-r--r--  1 cex  staff   962K Jan 29 15:02 9999.json
+-rw-r--r--  1 cex  staff   302K Jan 29 15:02 9999.json.gz
+-rw-r--r--  1 cex  staff   9.4M Jan 29 15:02 99999.json
+-rw-r--r--  1 cex  staff   2.9M Jan 29 15:02 99999.json.gz
+```
+Ratio
+
+| Amount     | json |  gzip  | Ratio |
+|------------|:----:|:------:|:-----:|
+| 999.json   | 96K  |  32K   |  67%  |
+| 9999.json  | 962K |  302K  |  68%  |
+| 99999.json | 9.4M |  2.9M  |  69%  |
+
+
 # Jaeger
 
 http://localhost:16686/
