@@ -9,8 +9,6 @@ feign:
       min-request-size: '2048'
       mime-types: text/xml,application/xml,application/json
     response:
-      min-request-size: '2048'
-      mime-types: text/xml,application/xml,application/json
       enabled: 'true'
 person:
   client:
