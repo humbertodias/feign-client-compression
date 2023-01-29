@@ -2,16 +2,18 @@ version: '3.8'
 services:
   client:
     build:
-      context: client
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: client/Dockerfile
     ports:
       - "9090:9090"
+    environment:
+      - PERSON_CLIENT_URL=http://server:9191/api
     networks:
       - spring-cloud-network
   server:
     build:
-      context: server
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: server/Dockerfile
     ports:
       - "9191:9191"
     networks:

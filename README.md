@@ -19,15 +19,9 @@ deactivate PersonService
 deactivate DemoController
 ```
 
-# Build
-```
-./gradlew build
-```
-
 # Run
 ```
-./gradlew :server:bootRun
-./gradlew :client:bootRun
+docker compose up
 ```
 
 # Client
@@ -45,7 +39,7 @@ Date: Sun, 29 Jan 2023 01:31:28 GMT
 So, checkout the log have Gzip enabled on Feign Client
 ```
 [PersonClient#getAll] <--- END HTTP (985130-byte body)
-[PersonClient#getAll] ---> GET http://localhost:9191/api/faker?amount=999 HTTP/1.1
+[PersonClient#getAll] ---> GET http://server:9191/api/faker?amount=999 HTTP/1.1
 [PersonClient#getAll] Accept-Encoding: gzip
 [PersonClient#getAll] Accept-Encoding: deflate
 [PersonClient#getAll] ---> END HTTP (0-byte body)

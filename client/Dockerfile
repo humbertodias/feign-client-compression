@@ -1,11 +1,9 @@
-FROM eclipse-temurin:17-jdk-focal
-
+FROM eclipse-temurin:17-jdk-focal as build
 WORKDIR /app
+COPY . .
+RUN ./gradlew :client:build
 
-COPY .gradle/ .gradle
-COPY gradlew build.gradle ./
-RUN ./gradlew build
-
-COPY src ./src
-
-CMD ["./gradlew", "bootRun"]
+FROM eclipse-temurin:17-jdk-focal as run
+WORKDIR /app
+COPY --from=build /app/client/build/libs/client-0.0.1-SNAPSHOT.jar /app/client.jar
+CMD [ "java", "-jar", "client.jar" ]
