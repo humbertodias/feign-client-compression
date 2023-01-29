@@ -1,5 +1,5 @@
 result(){
-  array=( 999 9999 99999 )
+  array=( 999 9999 99999 999999 )
   for amount in "${array[@]}"
   do
   	curl -s "http://localhost:9191/api/faker?amount=$amount" > "$amount.json"
