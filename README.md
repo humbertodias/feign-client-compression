@@ -1,6 +1,6 @@
 # Feign compression
 
-Testing feign client with gzip compression enabled
+Testing feign-client with gzip compression enabled
 
 
 ```mermaid
