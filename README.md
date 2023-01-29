@@ -38,19 +38,20 @@ Date: Sun, 29 Jan 2023 01:31:28 GMT
 ```
 So, checkout the log have Gzip enabled on Feign Client
 ```
-[PersonClient#getAll] <--- END HTTP (985130-byte body)
-[PersonClient#getAll] ---> GET http://server:9191/api/faker?amount=999 HTTP/1.1
-[PersonClient#getAll] Accept-Encoding: gzip
-[PersonClient#getAll] Accept-Encoding: deflate
-[PersonClient#getAll] ---> END HTTP (0-byte body)
-[PersonClient#getAll] <--- HTTP/1.1 200  (279ms)
-[PersonClient#getAll] connection: keep-alive
-[PersonClient#getAll] content-type: application/json
-[PersonClient#getAll] date: Sun, 29 Jan 2023 01:26:05 GMT
-[PersonClient#getAll] keep-alive: timeout=60
-[PersonClient#getAll] transfer-encoding: chunked
-[PersonClient#getAll] vary: accept-encoding
-[PersonClient#getAll] <--- END HTTP (98538-byte body)
+client-1 : [PersonClient#getAll] ---> GET http://server:9191/api/faker?amount=999 HTTP/1.1
+client-1 : [PersonClient#getAll] Accept-Encoding: gzip
+client-1 : [PersonClient#getAll] Accept-Encoding: deflate
+client-1 : [PersonClient#getAll] ---> END HTTP (0-byte body)
+server-1 : Before request [GET /api/faker?amount=999, client=172.19.0.2, headers=[accept-encoding:"gzip", "deflate", accept:"*/*", content-length:"0", host:"server:9191"]]
+client-1 : [PersonClient#getAll] <--- HTTP/1.1 200  (88ms)
+client-1 : [PersonClient#getAll] connection: keep-alive
+client-1 : [PersonClient#getAll] content-type: application/json
+client-1 : [PersonClient#getAll] date: Sun, 29 Jan 2023 14:25:26 GMT
+client-1 : [PersonClient#getAll] keep-alive: timeout=60
+client-1 : [PersonClient#getAll] transfer-encoding: chunked
+client-1 : [PersonClient#getAll] vary: accept-encoding
+client-1 : [PersonClient#getAll] <--- END HTTP (98150-byte body)
+server-1 : After request [GET /api/faker?amount=999, client=172.19.0.2, headers=[accept-encoding:"gzip", "deflate", accept:"*/*", content-length:"0", host:"server:9191"]]
 ```
 
 # Server
