@@ -1,0 +1,21 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: httptrace
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          filter:
+            CommonsRequestLoggingFilter: DEBUG
+server:
+  compression:
+    enabled: 'true'
+  port: '9191'
+opentracing:
+  jaeger:
+    http-sender:
+      url: ${OPENTRACING_JAEGER_HTTP_SERVER_URL:http://localhost:14268/api/traces}
+    service-name: server

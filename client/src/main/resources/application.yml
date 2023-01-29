@@ -1,0 +1,30 @@
+feign:
+  client:
+    config:
+      person-client:
+        loggerLevel: headers
+  compression:
+    request:
+      enabled: 'true'
+      min-request-size: '2048'
+      mime-types: text/xml,application/xml,application/json
+    response:
+      min-request-size: '2048'
+      mime-types: text/xml,application/xml,application/json
+      enabled: 'true'
+person:
+  client:
+    url: http://localhost:9191/api
+opentracing:
+  jaeger:
+    http-sender:
+      url: ${OPENTRACING_JAEGER_HTTP_SERVER_URL:http://localhost:14268/api/traces}
+    service-name: client
+server:
+  port: '9090'
+logging:
+  level:
+    com:
+      example:
+        demo:
+          client: DEBUG
