@@ -10,9 +10,9 @@ result(){
   rm *.json*
 }
 
-docker compose up -d
+docker-compose up -d
 sleep 3
 
-result
+time result
 
-docker compose down
+docker-compose down
