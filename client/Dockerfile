@@ -1,7 +1,7 @@
-FROM eclipse-temurin:17-jdk-focal as build
+FROM gradle:7-jdk11-focal as build
 WORKDIR /app
 COPY . .
-RUN ./gradlew :client:build
+RUN gradle :client:build
 
 FROM eclipse-temurin:17-jdk-focal as run
 WORKDIR /app
