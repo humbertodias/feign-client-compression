@@ -8,13 +8,13 @@ sequenceDiagram
 actor User
 User ->> DemoController : getRandomPerson
 activate DemoController
-DemoController ->> PersonService : getAll
+DemoController ->> PersonService : getAll *json
 activate PersonService
-PersonService ->> PersonClient : getAll
+PersonService ->> PersonClient : getAll *gzip
 activate PersonClient
-PersonClient -->> PersonService : #32;
+PersonClient -->> PersonService : #32; *gzip
 deactivate PersonClient
-PersonService -->> DemoController : #32;
+PersonService -->> DemoController : #32; *json
 deactivate PersonService
 deactivate DemoController
 ```
