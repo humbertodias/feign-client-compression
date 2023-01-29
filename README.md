@@ -11,6 +11,10 @@ DemoController ->> PersonService : getAll *json
 activate PersonService
 PersonService ->> PersonClient : getAll *gzip
 activate PersonClient
+PersonClient ->> FakerController : getRandom *gzip
+activate FakerController
+FakerController -->> PersonClient : #32; *gzip
+deactivate FakerController
 PersonClient -->> PersonService : #32; *gzip
 deactivate PersonClient
 PersonService -->> DemoController : #32; *json
