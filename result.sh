@@ -1,3 +1,5 @@
+#!/bin/bash
+
 result(){
   array=( 999 9999 99999 999999 )
   for amount in "${array[@]}"
@@ -7,6 +9,7 @@ result(){
   done
 
   ls -lha *.json*
+  gzip -l *.json.gz
   rm *.json*
 }
 
