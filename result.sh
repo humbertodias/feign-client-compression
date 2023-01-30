@@ -15,11 +15,12 @@ result(){
 }
 
 wait_health(){
-  echo "Waiting heath"
+  printf "\nWaiting heath"
   until $(curl -s localhost:9191/actuator/health | grep -q UP); do
       printf '.'
       sleep 2
   done
+  printf "OK\n"
 }
 
 
