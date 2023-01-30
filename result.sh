@@ -1,9 +1,10 @@
 #!/bin/bash
 
 result(){
-  array=( 999 9999 99999 999999 )
+  array=( 999 9999 99999 )
   for amount in "${array[@]}"
   do
+    echo "Generating result of $amount"
   	curl -s "http://localhost:9191/api/faker?amount=$amount" > "$amount.json"
   	curl -s -H "Accept-Encoding: gzip" "http://localhost:9191/api/faker?amount=$amount" > "$amount.json.gz"
   done
@@ -13,8 +14,17 @@ result(){
   rm *.json*
 }
 
+wait_health(){
+  echo "Waiting heath"
+  until $(curl -s localhost:9191/actuator/health | grep -q UP); do
+      printf '.'
+      sleep 2
+  done
+}
+
+
 docker-compose up -d
-sleep 3
+wait_health
 
 time result
 

@@ -2,7 +2,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: httptrace
+        include: health,httptrace
 logging:
   level:
     org:
