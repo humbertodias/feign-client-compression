@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+//import reactor.core.publisher.Flux;
+//import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -48,13 +48,13 @@ public class DemoController {
         return all;
     }
 
-    @GetMapping("person-async-flux")
-    Mono<List<PersonDto>> getRandomPersonAsyncFlux() throws ExecutionException, InterruptedException {
-        var one =  personService.getAllAsync(99, 1000);
-        var two =  personService.getAllAsync(99, 1000);
-        return Flux
-                .concat(Flux.fromIterable(one.get()),Flux.fromIterable(two.get()))
-                .collectList();
-    }
+//    @GetMapping("person-async-flux")
+//    Mono<List<PersonDto>> getRandomPersonAsyncFlux() throws ExecutionException, InterruptedException {
+//        var one =  personService.getAllAsync(99, 1000);
+//        var two =  personService.getAllAsync(99, 1000);
+//        return Flux
+//                .concat(Flux.fromIterable(one.get()),Flux.fromIterable(two.get()))
+//                .collectList();
+//    }
 
 }
