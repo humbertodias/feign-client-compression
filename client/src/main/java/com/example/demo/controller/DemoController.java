@@ -6,8 +6,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/demo")
@@ -20,8 +26,35 @@ public class DemoController {
     }
 
     @GetMapping("person")
-    List<PersonDto> getRandomPerson(@RequestParam(value = "amount", defaultValue = "10", required = false) int amount){
-        return personService.getAll(amount);
+    List<PersonDto> getRandomPerson(@RequestParam(value = "amount", defaultValue = "10", required = false) int amount, @RequestParam(value = "delay", defaultValue = "0", required = false) int delay){
+        return personService.getAll(amount, delay);
+    }
+
+    @GetMapping("person-sync")
+    List<PersonDto> getRandomPersonSync() {
+        var one =  personService.getAll(99, 1000);
+        var two =  personService.getAll(99, 1000);
+        return Stream.concat(one.stream() , two.stream())
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("person-async")
+    List<PersonDto> getRandomPersonAsync() throws ExecutionException, InterruptedException {
+        var one =  personService.getAllAsync(99, 1000);
+        var two =  personService.getAllAsync(99, 1000);
+        CompletableFuture.allOf(one, two);
+        List<PersonDto> all = one.get();
+        all.addAll(two.get());
+        return all;
+    }
+
+    @GetMapping("person-async-flux")
+    Mono<List<PersonDto>> getRandomPersonAsyncFlux() throws ExecutionException, InterruptedException {
+        var one =  personService.getAllAsync(99, 1000);
+        var two =  personService.getAllAsync(99, 1000);
+        return Flux
+                .concat(Flux.fromIterable(one.get()),Flux.fromIterable(two.get()))
+                .collectList();
     }
 
 }

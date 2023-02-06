@@ -20,7 +20,8 @@ public class FakerController {
     }
 
     @GetMapping("faker")
-    List<PersonDto> getRandom(@RequestParam(value = "amount", defaultValue = "10", required = false) int amount){
+    List<PersonDto> getRandom(@RequestParam(value = "amount", defaultValue = "10", required = false) int amount, @RequestParam(value = "delay", defaultValue = "0", required = false) int delay) throws InterruptedException{
+        Thread.sleep(delay);
         return personService.getRandom(amount);
     }
 

@@ -1,12 +1,15 @@
 #!/bin/bash
 
 result(){
+  delay=$1
   array=( 999 9999 99999 )
   for amount in "${array[@]}"
   do
-    echo "Generating result of $amount"
-  	curl -s "http://localhost:9191/api/faker?amount=$amount" > "$amount.json"
-  	curl -s -H "Accept-Encoding: gzip" "http://localhost:9191/api/faker?amount=$amount" > "$amount.json.gz"
+    echo "Generating result of $amount with $delay delay"
+    printf "# JSON"
+  	time curl -s "http://localhost:9191/api/faker?amount=$amount&delay=$delay" > "$amount.json"
+  	printf "# GZIP"
+  	time curl -s -H "Accept-Encoding: gzip" "http://localhost:9191/api/faker?amount=$amount&delay=$delay" > "$amount.json.gz"
   done
 
   ls -lha *.json*
@@ -27,6 +30,6 @@ wait_health(){
 docker-compose up -d
 wait_health
 
-time result
+time result 0
 
-docker-compose down
+docker-compose down -v
