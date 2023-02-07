@@ -42,10 +42,8 @@ public class DemoController {
     List<PersonDto> getRandomPersonAsync() throws ExecutionException, InterruptedException {
         var one =  personService.getAllAsync(99, 1000);
         var two =  personService.getAllAsync(99, 1000);
-        CompletableFuture.allOf(one, two);
-        List<PersonDto> all = one.get();
-        all.addAll(two.get());
-        return all;
+        return Stream.concat(one.get().stream() , two.get().stream())
+                .collect(Collectors.toList());
     }
 
 //    @GetMapping("person-async-flux")
