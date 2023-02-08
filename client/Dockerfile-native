@@ -1,11 +1,9 @@
-FROM debian as build
+#syntax=docker/dockerfile:1
+
+FROM debian as graalvm
 SHELL ["/bin/bash", "-c"]
-
-ADD . /build
-WORKDIR /build
 # For SDKMAN to work we need unzip & zip
-RUN apt update -y && apt install unzip zip curl build-essential libz-dev -y
-
+RUN apt update -y && apt install unzip zip curl build-essential libz-dev zlib1g-dev -y
 RUN \
     # Install SDKMAN
     curl -sk "https://get.sdkman.io" | bash  ; \
@@ -15,8 +13,17 @@ RUN \
     # Install GraalVM Native Image
     gu install native-image  ; \
     gradle --version ; \
-    native-image --version ; \
+    native-image --version
+
+FROM graalvm as build
+SHELL ["/bin/bash", "-c"]
+
+ADD . /build
+WORKDIR /build
+
+RUN \
     # Build
+    source $HOME/.sdkman/bin/sdkman-init.sh ; \
     gradle :client:build ; \
     cd client/build ; rm -rf native ; mkdir native ; cd native ; jar xvf ../libs/client-0.0.1-SNAPSHOT.jar ; \
     CP=BOOT-INF/classes:`find BOOT-INF/lib | tr '\n' ':'` ; \
@@ -34,7 +41,7 @@ RUN \
       -cp $CP $MAINCLASS;
 
 # We use a Docker multi-stage build here in order to only take the compiled native Spring Boot App from the first build container
-FROM debian
+FROM debian as runtime
 ENV PORT=9090
 # Add Spring Boot Native app spring-boot-graal to Container
 COPY --from=build "/build/client/build/native/client" client

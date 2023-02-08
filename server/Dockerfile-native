@@ -1,11 +1,9 @@
-FROM debian as build
+#syntax=docker/dockerfile:1
+
+FROM debian as graalvm
 SHELL ["/bin/bash", "-c"]
-
-ADD . /build
-WORKDIR /build
 # For SDKMAN to work we need unzip & zip
-RUN apt update -y && apt install unzip zip curl build-essential libz-dev -y
-
+RUN apt update -y && apt install unzip zip curl build-essential libz-dev zlib1g-dev -y
 RUN \
     # Install SDKMAN
     curl -sk "https://get.sdkman.io" | bash  ; \
@@ -15,8 +13,17 @@ RUN \
     # Install GraalVM Native Image
     gu install native-image  ; \
     gradle --version ; \
-    native-image --version ; \
+    native-image --version
+
+FROM graalvm as build
+SHELL ["/bin/bash", "-c"]
+
+ADD . /build
+WORKDIR /build
+
+RUN \
     # Build
+    source $HOME/.sdkman/bin/sdkman-init.sh ; \
     gradle :server:build ; \
     cd server/build ; rm -rf native ; mkdir native ; cd native ; jar xvf ../libs/server-0.0.1-SNAPSHOT.jar ; \
     CP=BOOT-INF/classes:`find BOOT-INF/lib | tr '\n' ':'` ; \

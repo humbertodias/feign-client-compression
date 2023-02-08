@@ -1,1 +1,1 @@
-Dockerfile-jar
+Dockerfile-native
