@@ -1,12 +1,13 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '2.7.8'
-	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'org.springframework.boot' version '3.0.2'
+	id 'io.spring.dependency-management' version '1.1.0'
+	id 'org.graalvm.buildtools.native' version '0.9.19'
 }
 
 group = 'com.example.server'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = 17
 
 repositories {
 	mavenCentral()
@@ -14,16 +15,21 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation ('org.springframework.boot:spring-boot-starter-web')
+//	implementation ('org.springframework.boot:spring-boot-starter-web'){ exclude(module: "spring-boot-starter-tomcat")}
+//	implementation 'org.springframework.boot:spring-boot-starter-jetty'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'com.github.javafaker:javafaker:1.0.2'
 	implementation 'io.github.openfeign.opentracing:feign-opentracing:0.4.1'
 	implementation 'io.opentracing.contrib:opentracing-spring-jaeger-web-starter:3.3.1'
+	// https://mvnrepository.com/artifact/org.springframework/spring-context-indexer
+	implementation 'org.springframework:spring-context-indexer:6.0.4'
+
 	implementation project(':common')
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
-configurations.all {
+configurations.configureEach {
 	resolutionStrategy.eachDependency { details ->
 		if (details.requested.module.toString() == 'org.yaml:snakeyaml') {
 			details.artifactSelection {
@@ -40,4 +46,11 @@ tasks.named('test') {
 
 springBoot {
     mainClass = 'com.example.demo.FakerApplication'
+}
+
+bootBuildImage {
+	builder = "paketobuildpacks/builder:tiny"
+	environment = [
+			"BP_NATIVE_IMAGE" : "true"
+	]
 }
