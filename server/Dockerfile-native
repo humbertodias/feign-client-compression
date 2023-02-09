@@ -47,8 +47,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt update -y && \
     apt install locales -y && \
     locale-gen pt_BR.UTF-8 UTF-8 && \
-    update-locale LANG=pt_BR.UTF-8 && \
-    export LANGUAGE="pt_BR:pt:en"
+    update-locale
 # Add Spring Boot Native app spring-boot-graal to Container
 COPY --from=build "/build/server/build/native/server" server
 # Fire up our Spring Boot Native app by default
