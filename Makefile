@@ -1,6 +1,6 @@
 build:
 	# https://docs.docker.com/build/building/multi-stage/
-	DOCKER_BUILDKIT=0 docker-compose build --no-cache
+	DOCKER_BUILDKIT=0 docker-compose build
 rm:
 	docker rmi feign-client-compression-client feign-client-compression-server -f
 up:

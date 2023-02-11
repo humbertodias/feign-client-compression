@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -22,8 +23,10 @@ public class PersonService {
 
     private PersonDto mapDto(){
         PersonDto dto = new PersonDto();
-        dto.setName(faker.name().fullName());
-        dto.setAddress(faker.address().fullAddress());
+//        dto.setName(faker.name().fullName());
+//        dto.setAddress(faker.address().fullAddress());
+        dto.setAddress(UUID.randomUUID().toString());
+        dto.setAddress(UUID.randomUUID().toString());
         return dto;
     }
 
