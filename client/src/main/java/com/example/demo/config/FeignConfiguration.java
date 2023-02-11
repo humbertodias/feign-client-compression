@@ -10,7 +10,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 
 import java.util.stream.Collectors;
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class FeignConfiguration {
 
     @Bean
