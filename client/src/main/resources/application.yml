@@ -17,7 +17,7 @@ feign:
       enabled: 'true'
 person:
   client:
-    url: http://localhost:9191/api
+    url: http://${CLIENT_HOST:localhost}:9191/api
 opentracing:
   jaeger:
     service-name: client

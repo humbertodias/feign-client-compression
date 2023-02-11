@@ -12,7 +12,7 @@ RUN \
     sdk install java $GRAALVM_JAVA_VERSION ; \
     sdk install gradle ; \
     # Install GraalVM Native Image
-    gu install native-image  ; \
+    gu install native-image ; \
     gradle --version ; \
     native-image --version
 
@@ -21,28 +21,10 @@ SHELL ["/bin/bash", "-c"]
 
 ADD . /build
 WORKDIR /build
-
-RUN \
-    # Build
-    source $HOME/.sdkman/bin/sdkman-init.sh ; \
-    gradle :client:build ; \
-    cd client/build ; rm -rf native ; mkdir native ; cd native ; jar xvf ../libs/client-0.0.1-SNAPSHOT.jar ; \
-    CP=BOOT-INF/classes:`find BOOT-INF/lib | tr '\n' ':'` ; \
-    MAINCLASS=com.example.demo.DemoApplication ; \
-    ARTIFACT=client ; \
-    GRAALVM_VERSION=`native-image --version` ; \
-    echo "[-->] Compiling Spring Boot App '$ARTIFACT' with $GRAALVM_VERSION" ; \
-    native-image \
-      --no-fallback \
-      -J-Xmx4G \
-      -H:Name=$ARTIFACT \
-      -H:+ReportExceptionStackTraces \
-      -Dspring.graal.remove-unused-autoconfig=true \
-      -Dspring.graal.remove-yaml-support=true \
-      -cp $CP $MAINCLASS;
+RUN source $HOME/.sdkman/bin/sdkman-init.sh && bash compile-native-client.sh
 
 # We use a Docker multi-stage build here in order to only take the compiled native Spring Boot App from the first build container
-FROM debian as runtime
+FROM debian:stable-slim  as runtime
 ENV PORT=9090
 # Add Spring Boot Native app spring-boot-graal to Container
 COPY --from=build "/build/client/build/native/client" client

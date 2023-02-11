@@ -1,19 +1,21 @@
 #!/bin/bash
 
+set +x
+
 jar_unzip(){
     # sdk install gradle
-    cd client/build
+    cd server/build
     rm -rf native
     mkdir native
     cd native
-    jar xvf ../libs/client-0.0.1-SNAPSHOT.jar
+    jar xvf ../libs/server-0.0.1-SNAPSHOT.jar
 }
 
 jar_native(){
     # sdk install java 22.3.1.r17-grl
     CP=BOOT-INF/classes:`find BOOT-INF/lib | tr '\n' ':'`
-    MAINCLASS=com.example.demo.DemoApplication
-    ARTIFACT=client
+    MAINCLASS=com.example.demo.FakerApplication
+    ARTIFACT=server
     GRAALVM_VERSION=`native-image --version`
     echo "[-->] Compiling Spring Boot App '$ARTIFACT' with $GRAALVM_VERSION"
     time native-image \
@@ -26,6 +28,6 @@ jar_native(){
       -cp $CP $MAINCLASS;
 }
 
-./gradlew :client:build
+gradle :server:build
 jar_unzip
 jar_native

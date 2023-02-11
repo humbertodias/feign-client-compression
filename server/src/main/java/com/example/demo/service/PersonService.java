@@ -25,7 +25,7 @@ public class PersonService {
         PersonDto dto = new PersonDto();
 //        dto.setName(faker.name().fullName());
 //        dto.setAddress(faker.address().fullAddress());
-        dto.setAddress(UUID.randomUUID().toString());
+        dto.setName(UUID.randomUUID().toString());
         dto.setAddress(UUID.randomUUID().toString());
         return dto;
     }
