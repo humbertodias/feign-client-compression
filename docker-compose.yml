@@ -3,22 +3,24 @@ services:
   client:
     build:
       context: .
-      dockerfile: client/Dockerfile-jar
+      dockerfile: client/Dockerfile-native
     ports:
       - "9090:9090"
     environment:
       - CLIENT_HOST=server
       - JAEGER_HOST=jaeger
+      - JAEGER_ENABLE=true
     networks:
       - spring-cloud-network
   server:
     build:
       context: .
-      dockerfile: server/Dockerfile-jar
+      dockerfile: server/Dockerfile-native
     ports:
       - "9191:9191"
     environment:
       - JAEGER_HOST=jaeger
+      - JAEGER_ENABLE=true
     networks:
       - spring-cloud-network
   jaeger:

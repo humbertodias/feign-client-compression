@@ -17,6 +17,6 @@ server:
 opentracing:
   jaeger:
     service-name: server
-    enabled: true
+    enabled: ${JAEGER_ENABLE:false}
     udp-sender:
       host: ${JAEGER_HOST:localhost}

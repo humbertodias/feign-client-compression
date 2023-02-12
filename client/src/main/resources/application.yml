@@ -21,7 +21,7 @@ person:
 opentracing:
   jaeger:
     service-name: client
-    enabled: true
+    enabled: ${JAEGER_ENABLE:false}
     udp-sender:
       host: ${JAEGER_HOST:localhost}
 server:
