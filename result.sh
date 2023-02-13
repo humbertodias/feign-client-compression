@@ -2,7 +2,7 @@
 
 result(){
   delay=$1
-  array=( 999 9999 99999 )
+  array=( 999 9999 99999 999999 9999999 )
   for amount in "${array[@]}"
   do
     echo "Generating result of $amount with $delay delay"

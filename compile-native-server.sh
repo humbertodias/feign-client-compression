@@ -21,11 +21,13 @@ jar_native(){
     time native-image \
       --no-fallback \
       --report-unsupported-elements-at-runtime \
+      --initialize-at-build-time=$MAINCLASS \
       -J-Xmx4G \
       -H:Name=$ARTIFACT \
       -H:+ReportExceptionStackTraces \
       -Dspring.graal.remove-unused-autoconfig=true \
       -Dspring.graal.remove-yaml-support=true \
+      -Dspring.native.verify=true \
       -cp $CP $MAINCLASS;
 }
 
