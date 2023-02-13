@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 //import reactor.core.publisher.Mono;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -44,6 +44,16 @@ public class DemoController {
         var two =  personService.getAllAsync(99, 1000);
         return Stream.concat(one.get().stream() , two.get().stream())
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping("server-url")
+    public String getPersonClientUrl(){
+        return personService.getPersonClientUrl();
+    }
+
+    @GetMapping("env")
+    public Map<String,String> getEnv(){
+        return System.getenv();
     }
 
 //    @GetMapping("person-async-flux")

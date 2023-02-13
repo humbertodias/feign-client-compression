@@ -4,6 +4,8 @@ services:
     build:
       context: .
       dockerfile: client/Dockerfile-native
+      args:
+        - REPLACE_PROFILE_FILE=docker
     ports:
       - "9090:9090"
     environment:

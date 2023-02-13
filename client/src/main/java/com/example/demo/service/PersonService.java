@@ -3,6 +3,7 @@ package com.example.demo.service;
 
 import com.example.demo.client.PersonClient;
 import com.example.demo.dto.PersonDto;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +15,8 @@ public class PersonService {
     final
     PersonClient personClient;
 
+    @Value("${person.client.host}")
+    String personClientUrl;
     public PersonService(PersonClient personClient) {
         this.personClient = personClient;
     }
@@ -24,6 +27,10 @@ public class PersonService {
 
     public CompletableFuture<List<PersonDto>> getAllAsync(int amount, int delay){
         return CompletableFuture.supplyAsync(()->personClient.getAll(amount, delay));
+    }
+
+    public String getPersonClientUrl(){
+        return personClientUrl;
     }
 
 }

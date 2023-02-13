@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-@FeignClient(value = "person-client", url = "${person.client.url}")
+@FeignClient(value = "person-client", url = "${person.client.host}", path = "/api")
 public interface PersonClient {
 
     @GetMapping(value = "faker")

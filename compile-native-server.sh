@@ -20,6 +20,7 @@ jar_native(){
     echo "[-->] Compiling Spring Boot App '$ARTIFACT' with $GRAALVM_VERSION"
     time native-image \
       --no-fallback \
+      --report-unsupported-elements-at-runtime \
       -J-Xmx4G \
       -H:Name=$ARTIFACT \
       -H:+ReportExceptionStackTraces \

@@ -17,10 +17,13 @@ RUN \
     native-image --version
 
 FROM graalvm as build
+ARG REPLACE_PROFILE_FILE
 SHELL ["/bin/bash", "-c"]
 
 ADD . /build
 WORKDIR /build
+# Temporary fix
+RUN if [[ ! -z "$REPLACE_PROFILE_FILE" ]]; then echo "Replacing profile file"; cp client/src/main/resources/application-$REPLACE_PROFILE_FILE.yml client/src/main/resources/application.yml ; fi
 RUN source $HOME/.sdkman/bin/sdkman-init.sh && bash compile-native-client.sh
 
 # We use a Docker multi-stage build here in order to only take the compiled native Spring Boot App from the first build container
@@ -30,6 +33,3 @@ ENV PORT=9090
 COPY --from=build "/build/client/build/native/client" client
 # Fire up our Spring Boot Native app by default
 CMD [ "sh", "-c", "./client -Dserver.port=$PORT" ]
-
-# https://blog.codecentric.de/spring-boot-graalvm-native-image-maven-plugin
-# https://blog.codecentric.de/spring-boot-graalvm

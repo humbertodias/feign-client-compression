@@ -35,6 +35,3 @@ ENV PORT=9191
 COPY --from=build "/build/server/build/native/server" server
 # Fire up our Spring Boot Native app by default
 CMD [ "sh", "-c", "./server -Dserver.port=$PORT" ]
-
-# https://blog.codecentric.de/spring-boot-graalvm-native-image-maven-plugin
-# https://blog.codecentric.de/spring-boot-graalvm

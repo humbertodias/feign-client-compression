@@ -17,13 +17,13 @@ feign:
       enabled: 'true'
 person:
   client:
-    host: http://${CLIENT_HOST:localhost}:9191
+    host: http://server:9191
 opentracing:
   jaeger:
     service-name: client
-    enabled: ${JAEGER_ENABLE:false}
+    enabled: true
     udp-sender:
-      host: ${JAEGER_HOST:localhost}
+      host: jaeger
 server:
   port: '9090'
 logging:
