@@ -1,0 +1,14 @@
+FROM gradle:7-jdk11-focal as build
+WORKDIR /app
+COPY . .
+RUN gradle :client:build
+
+FROM alpine:latest as run
+ENV TZ=America/Sao_Paulo
+RUN apk --update add openjdk11
+RUN apk add --no-cache libstdc++
+WORKDIR /app
+COPY --from=build /app/client/build/libs/client-0.0.1-SNAPSHOT.jar /app/client.jar
+ENTRYPOINT [ "sh", "-c", "java \
+            -Djava.security.edg=file:/dev/./urandom \
+            -jar client.jar" ]
