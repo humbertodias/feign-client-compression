@@ -40,6 +40,8 @@ logging:
 spring:
   cache:
     type: redis
+  main:
+    allow-bean-definition-overriding: true
 
 cache:
   ttl: 5m
@@ -48,3 +50,4 @@ cache:
   redisPassword: password
   expirations:
     person: 10m
+

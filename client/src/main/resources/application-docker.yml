@@ -32,11 +32,16 @@ logging:
       example:
         demo:
           client: DEBUG
+    org:
+      springframework:
+        cache: trace
 
 # Redis Config
 spring:
   cache:
     type: redis
+  main:
+    allow-bean-definition-overriding: true
 
 cache:
   ttl: 5m
