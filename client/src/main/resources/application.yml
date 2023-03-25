@@ -43,6 +43,10 @@ spring:
   main:
     allow-bean-definition-overriding: true
 
+  cloud:
+    config:
+      enabled: false
+
 cache:
   ttl: 5m
   redisHost: localhost
@@ -50,4 +54,5 @@ cache:
   redisPassword: password
   expirations:
     person: 10m
+
 

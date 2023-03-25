@@ -13,8 +13,8 @@ import java.util.concurrent.CompletableFuture;
 public interface PersonClient {
 
     @GetMapping(value = "faker")
-    @Cacheable(value = "person", key = "#amount")
-    List<PersonDto> getAll(@RequestParam(value = "amount", defaultValue = "10", required = false) int amount, @RequestParam(value = "delay", defaultValue = "0", required = false) int delay);
+    @Cacheable(value = "person", key = "{#amount, #delay, #dataBase}")
+    List<PersonDto> getAll(@RequestParam(value = "amount", defaultValue = "10", required = false) int amount, @RequestParam(value = "delay", defaultValue = "0", required = false) int delay, String dataBase);
     @GetMapping(value = "faker")
     CompletableFuture<List<PersonDto>> getAllAsync(@RequestParam(value = "amount", defaultValue = "10", required = false) int amount, @RequestParam(value = "delay", defaultValue = "0", required = false) int delay);
 
