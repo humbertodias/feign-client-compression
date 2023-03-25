@@ -24,7 +24,7 @@ public class RedisLogInterceptor extends CacheInterceptor {
         final Object value = cache.get(key);
         final String cacheKey = key(key);
         final String cacheValue = value(value);
-        log.info("Cache key {} value {}", cacheKey, cacheValue);
+        log.info("Cache name {} key {} value {}", cache.getName(), cacheKey, cacheValue);
     }
 
     @SneakyThrows

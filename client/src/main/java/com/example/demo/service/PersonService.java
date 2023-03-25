@@ -29,7 +29,7 @@ public class PersonService {
             .withZone(ZoneId.systemDefault());
 
     public List<PersonDto> getAll(int amount, int delay){
-        return personClient.getAll(amount, delay, dataBase());
+        return personClient.getAllRedis(amount, delay, dataBase());
     }
 
     private String dataBase(){
@@ -37,7 +37,7 @@ public class PersonService {
     }
 
     public CompletableFuture<List<PersonDto>> getAllAsync(int amount, int delay){
-        return CompletableFuture.supplyAsync(()->personClient.getAll(amount, delay, dataBase()));
+        return CompletableFuture.completedFuture(personClient.getAllEhCache(amount, delay, dataBase()));
     }
 
     public String getPersonClientUrl(){

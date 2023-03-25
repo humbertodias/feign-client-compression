@@ -43,6 +43,16 @@ dependencies {
 	implementation 'org.springframework.data:spring-data-redis'
 	implementation "io.lettuce:lettuce-core"
 
+	// ehcache
+	implementation "org.springframework.boot:spring-boot-starter-cache"
+	// JSR-107 API
+	implementation "javax.cache:cache-api"
+	// v3
+	implementation "org.ehcache:ehcache"
+	// v2
+	// implementation 'net.sf.ehcache:ehcache:2.10.9.2'
+
+
 	// https://projectlombok.org
 	implementation 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'

@@ -4,7 +4,6 @@ import com.example.demo.interceptor.RedisLogInterceptor;
 import com.example.demo.util.SerializerUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.AnnotationCacheOperationSource;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.interceptor.CacheInterceptor;
@@ -12,6 +11,7 @@ import org.springframework.cache.interceptor.CacheOperationSource;
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -43,7 +43,6 @@ public class RedisConfiguration {
     private RedisSerializer<String> keySerializer() {
         return RedisSerializer.string();
     }
-
 
     private RedisSerializer<Object> valueSerializer() {
 //        return RedisSerializationContext.SerializationPair.fromSerializer(RedisSerializer.json());
@@ -86,12 +85,14 @@ public class RedisConfiguration {
     }
 
     @Bean
-    public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory, CacheConfigurationProperties properties) {
+    @Primary
+    public RedisCacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory, CacheConfigurationProperties properties) {
         Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
 
         for (Map.Entry<String, Duration> cacheNameAndTimeout : properties.getExpirations().entrySet()) {
-            log.info("Cache key {} expiration {}", cacheNameAndTimeout.getKey(), cacheNameAndTimeout.getValue());
-            cacheConfigurations.put(cacheNameAndTimeout.getKey(), createCacheConfiguration(cacheNameAndTimeout.getValue()));
+            final String key = cacheNameAndTimeout.getKey().concat("-redis");
+            log.info("Cache key {} expiration {}", key, cacheNameAndTimeout.getValue());
+            cacheConfigurations.put(key, createCacheConfiguration(cacheNameAndTimeout.getValue()));
         }
 
         var rcm = RedisCacheManager
@@ -119,4 +120,5 @@ public class RedisConfiguration {
     public KeyGenerator keyGenerator() {
         return new RedisCustomKeyGenerator();
     }
+
 }

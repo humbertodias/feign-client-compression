@@ -36,10 +36,14 @@ logging:
       springframework:
         cache: trace
 
-# Redis Config
+# Cache Config
 spring:
   cache:
-    type: redis
+    #    type: redis
+    #    type: jcache
+    jcache:
+      config: classpath:ehcache.xml
+
   main:
     allow-bean-definition-overriding: true
 
