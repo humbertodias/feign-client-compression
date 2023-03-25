@@ -32,22 +32,23 @@ public class RedisConfiguration {
     }
 
     private RedisSerializationContext.SerializationPair<String> keySerializer() {
-        return RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer());
+        return RedisSerializationContext.SerializationPair.fromSerializer(RedisSerializer.string());
     }
 
-    private ObjectMapper objectMapper(){
+    private ObjectMapper objectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper;
     }
 
     private RedisSerializationContext.SerializationPair<Object> valueSerializer() {
+//        return RedisSerializationContext.SerializationPair.fromSerializer(RedisSerializer.json());
         GenericJackson2JsonRedisSerializer redisSerializer = new GenericJackson2JsonRedisSerializer(objectMapper());
         return RedisSerializationContext.SerializationPair.fromSerializer(redisSerializer);
     }
 
     @Bean
     public LettuceConnectionFactory redisConnectionFactory(CacheConfigurationProperties properties) {
-        log.info("Redis (/lettuce) configuration enabled. With cache timeout {}" , properties.getTtl());
+        log.info("Redis (/lettuce) configuration enabled. With cache timeout {}", properties.getTtl());
 
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
         redisStandaloneConfiguration.setHostName(properties.getRedisHost());
