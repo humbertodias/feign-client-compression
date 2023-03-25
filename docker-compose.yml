@@ -1,9 +1,9 @@
-version: '3.8'
+version: '3.9'
 services:
   client:
     build:
       context: .
-      dockerfile: client/Dockerfile-native
+      dockerfile: client/Dockerfile-jar
       args:
         - REPLACE_PROFILE_FILE=docker
     ports:
@@ -12,17 +12,22 @@ services:
       - CLIENT_HOST=server
       - JAEGER_HOST=jaeger
       - JAEGER_ENABLE=true
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=password
+      - SPRING_PROFILES_ACTIVE=docker
     networks:
       - spring-cloud-network
   server:
     build:
       context: .
-      dockerfile: server/Dockerfile-native
+      dockerfile: server/Dockerfile-jar
     ports:
       - "9191:9191"
     environment:
       - JAEGER_HOST=jaeger
       - JAEGER_ENABLE=true
+      - SPRING_PROFILES_ACTIVE=docker
     networks:
       - spring-cloud-network
   jaeger:
@@ -37,6 +42,34 @@ services:
       - "9411:9411"
     networks:
       - spring-cloud-network
+  redis:
+    image: redis:6.2-alpine
+    restart: always
+    command: redis-server --save 20 1 --loglevel warning --requirepass password
+    ports:
+      - "6379:6379"
+    volumes:
+      - cache:/data
+    networks:
+      - spring-cloud-network
+
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    restart: always
+    environment:
+      - REDIS_HOSTS=redis
+      - REDIS_HOST=redis
+      - REDIS_PORT=redis:6379
+      - REDIS_PASSWORD=password
+    ports:
+      - "8081:8081"
+    networks:
+      - spring-cloud-network
+
 networks:
   spring-cloud-network:
     driver: bridge
+
+volumes:
+  cache:
+    driver: local

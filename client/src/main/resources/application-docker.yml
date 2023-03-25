@@ -33,3 +33,15 @@ logging:
         demo:
           client: DEBUG
 
+# Redis Config
+spring:
+  cache:
+    type: redis
+
+cache:
+  ttl: 5m
+  redisHost: redis
+  redisPort: 6379
+  redisPassword: password
+  expirations:
+    person: 10m

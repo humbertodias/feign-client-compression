@@ -103,6 +103,15 @@ Ratio
 
 http://localhost:16686/
 
+# Redis
+
+127.0.0.1:6379
+
+
+# Redis-Commander
+
+http://127.0.0.1:8081
+
 
 # Ref
 * [feign_request_response_compression](https://cloud.spring.io/spring-cloud-netflix/multi/multi_spring-cloud-feign.html#_feign_request_response_compression)
