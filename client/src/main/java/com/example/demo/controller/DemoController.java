@@ -63,8 +63,16 @@ public class DemoController {
     }
     @GetMapping("person-ehcache")
     List<PersonDto> getRandomPersonEhCache() {
-        var one = personService.getAllEhCache(99, 1000);
-        var two = personService.getAllEhCache(99, 1000);
+        var one = personService.getAllPersonEhCache(99, 1000);
+        var two = personService.getAllPersonEhCache(99, 1000);
+        return Stream.concat(one.stream(), two.stream())
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("pet-ehcache")
+    List<PersonDto> getRandomPetEhCache() {
+        var one = personService.getAllPetEhCache(99, 1000);
+        var two = personService.getAllPetEhCache(99, 1000);
         return Stream.concat(one.stream(), two.stream())
                 .collect(Collectors.toList());
     }

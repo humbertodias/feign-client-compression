@@ -9,7 +9,6 @@ import com.github.benmanes.caffeine.cache.Cache;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.caffeine.CaffeineCache;
@@ -54,7 +53,7 @@ public class PersonService {
     }
 
     public CompletableFuture<List<PersonDto>> getAllAsync(int amount, int delay) {
-        return CompletableFuture.completedFuture(personClient.getAllEhCache(amount, delay, dataBase()));
+        return CompletableFuture.completedFuture(personClient.getAllPersonEhCache(amount, delay, dataBase()));
     }
 
     public List<PersonDto> getAllPersonRedis(int amount, int delay) {
@@ -73,8 +72,12 @@ public class PersonService {
         return personClient.getAllPetCaffeine(amount, delay, dataBase());
     }
 
-    public List<PersonDto> getAllEhCache(int amount, int delay) {
-        return personClient.getAllEhCache(amount, delay, dataBase());
+    public List<PersonDto> getAllPersonEhCache(int amount, int delay) {
+        return personClient.getAllPersonEhCache(amount, delay, dataBase());
+    }
+
+    public List<PersonDto> getAllPetEhCache(int amount, int delay) {
+        return personClient.getAllPetEhCache(amount, delay, dataBase());
     }
 
     public String getPersonClientUrl() {

@@ -62,8 +62,8 @@ cache:
   redis:
     enabled: true
   ehcache:
-    enabled: false
-  caffeine:
     enabled: true
+  caffeine:
+    enabled: false
 
 
