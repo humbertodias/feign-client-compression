@@ -57,7 +57,8 @@ cache:
   redisPort: 6379
   redisPassword: password
   expirations:
-    person: 10m
+    person: 5s
+    pet: 20s
   redis:
     enabled: true
   ehcache:

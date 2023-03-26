@@ -48,12 +48,19 @@ public class DemoController {
 
     @GetMapping("person-redis")
     List<PersonDto> getRandomPersonRedis() {
-        var one = personService.getAllRedis(99, 1000);
-        var two = personService.getAllRedis(99, 1000);
+        var one = personService.getAllPersonRedis(99, 1000);
+        var two = personService.getAllPersonRedis(99, 1000);
         return Stream.concat(one.stream(), two.stream())
                 .collect(Collectors.toList());
     }
 
+    @GetMapping("pet-redis")
+    List<PersonDto> getRandomPetRedis() {
+        var one = personService.getAllPetRedis(99, 1000);
+        var two = personService.getAllPetRedis(99, 1000);
+        return Stream.concat(one.stream(), two.stream())
+                .collect(Collectors.toList());
+    }
     @GetMapping("person-ehcache")
     List<PersonDto> getRandomPersonEhCache() {
         var one = personService.getAllEhCache(99, 1000);
@@ -64,12 +71,20 @@ public class DemoController {
 
     @GetMapping("person-caffeine")
     List<PersonDto> getRandomPersonCaffeine() {
-        var one = personService.getAllCaffeine(99, 1000);
-        var two = personService.getAllCaffeine(99, 1000);
+        var one = personService.getAllPersonCaffeine(99, 1000);
+        var two = personService.getAllPersonCaffeine(99, 1000);
         return Stream.concat(one.stream(), two.stream())
                 .collect(Collectors.toList());
     }
 
+
+    @GetMapping("pet-caffeine")
+    List<PersonDto> getRandomPetCaffeine() {
+        var one = personService.getAllPetCaffeine(99, 1000);
+        var two = personService.getAllPetCaffeine(99, 1000);
+        return Stream.concat(one.stream(), two.stream())
+                .collect(Collectors.toList());
+    }
 
     @GetMapping("server-url")
     public String getPersonClientUrl() {
@@ -79,6 +94,16 @@ public class DemoController {
     @GetMapping("env")
     public Map<String, String> getEnv() {
         return System.getenv();
+    }
+
+    @GetMapping("caches")
+    public Map<Object, Map> getCaches() {
+        return personService.getCaches();
+    }
+
+    @GetMapping("cache-clean")
+    public void cleanCache() {
+        personService.cleanCache();
     }
 
 //    @GetMapping("person-async-flux")

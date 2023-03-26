@@ -6,13 +6,20 @@
             http://www.ehcache.org/v3/jsr107 http://www.ehcache.org/schema/ehcache-107-ext-3.0.xsd">
 
     <cache alias="person-ehcache">
+        <expiry>
+            <ttl unit="seconds">5</ttl>
+        </expiry>
+
         <listeners>
             <listener>
                 <class>com.example.demo.logger.EhCacheEventLogger</class>
                 <event-firing-mode>ASYNCHRONOUS</event-firing-mode>
                 <event-ordering-mode>UNORDERED</event-ordering-mode>
                 <events-to-fire-on>CREATED</events-to-fire-on>
+                <events-to-fire-on>UPDATED</events-to-fire-on>
                 <events-to-fire-on>EXPIRED</events-to-fire-on>
+                <events-to-fire-on>REMOVED</events-to-fire-on>
+                <events-to-fire-on>EVICTED</events-to-fire-on>
             </listener>
         </listeners>
 
@@ -22,26 +29,28 @@
         </resources>
     </cache>
 
-    <!-- Default cache template -->
-    <cache-template name="default">
+    <cache alias="pet-ehcache">
         <expiry>
-            <ttl unit="seconds">30</ttl>
+            <ttl unit="seconds">25</ttl>
         </expiry>
+
         <listeners>
             <listener>
                 <class>com.example.demo.logger.EhCacheEventLogger</class>
                 <event-firing-mode>ASYNCHRONOUS</event-firing-mode>
                 <event-ordering-mode>UNORDERED</event-ordering-mode>
                 <events-to-fire-on>CREATED</events-to-fire-on>
+                <events-to-fire-on>UPDATED</events-to-fire-on>
                 <events-to-fire-on>EXPIRED</events-to-fire-on>
+                <events-to-fire-on>REMOVED</events-to-fire-on>
                 <events-to-fire-on>EVICTED</events-to-fire-on>
             </listener>
         </listeners>
+
         <resources>
-            <heap>1000</heap>
+            <heap unit="entries">2</heap>
             <offheap unit="MB">10</offheap>
-            <disk persistent="true" unit="MB">20</disk>
         </resources>
-    </cache-template>
+    </cache>
 
 </config>

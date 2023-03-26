@@ -1,10 +1,11 @@
 package com.example.demo.config;
 
-import com.example.demo.interceptor.RedisLogInterceptor;
+import com.example.demo.interceptor.CacheLogInterceptor;
 import com.example.demo.util.SerializerUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.AnnotationCacheOperationSource;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.interceptor.CacheInterceptor;
@@ -89,8 +90,8 @@ public class RedisConfiguration {
 
     @Bean
     @Primary
-    public RedisCacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory, CacheProperties properties) {
-        Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
+    public CacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory, CacheProperties properties) {
+        final Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
 
         for (Map.Entry<String, Duration> cacheNameAndTimeout : properties.getExpirations().entrySet()) {
             final String key = cacheNameAndTimeout.getKey().concat("-redis");
@@ -98,7 +99,7 @@ public class RedisConfiguration {
             cacheConfigurations.put(key, createCacheConfiguration(cacheNameAndTimeout.getValue()));
         }
 
-        var rcm = RedisCacheManager
+        final var rcm = RedisCacheManager
                 .builder(redisConnectionFactory)
                 .cacheDefaults(redisCacheConfiguration(properties))
                 .withInitialCacheConfigurations(cacheConfigurations)
@@ -114,7 +115,7 @@ public class RedisConfiguration {
 
     @Bean
     public CacheInterceptor cacheInterceptor() {
-        CacheInterceptor interceptor = new RedisLogInterceptor();
+        final CacheInterceptor interceptor = new CacheLogInterceptor();
         interceptor.setCacheOperationSources(cacheOperationSource());
         return interceptor;
     }
@@ -124,9 +125,9 @@ public class RedisConfiguration {
         return new RedisCustomKeyGenerator();
     }
 
-    @Bean
-    public CacheResolver customCacheResolver(RedisConnectionFactory redisConnectionFactory, CacheProperties properties) {
-        return new CustomCacheResolver(redisCacheManager(redisConnectionFactory, properties));
-    }
+//    @Bean
+//    public CacheResolver customCacheResolver(RedisConnectionFactory redisConnectionFactory, CacheProperties properties) {
+//        return new CustomCacheResolver(redisCacheManager(redisConnectionFactory, properties));
+//    }
 
 }

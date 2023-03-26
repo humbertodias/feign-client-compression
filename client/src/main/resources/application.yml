@@ -58,6 +58,7 @@ cache:
   redisPassword: password
   expirations:
     person: 5s
+    pet: 20s
   redis:
     enabled: true
   ehcache:

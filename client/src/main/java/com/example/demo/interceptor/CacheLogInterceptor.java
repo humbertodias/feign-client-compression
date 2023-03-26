@@ -10,21 +10,27 @@ import org.springframework.cache.interceptor.CacheInterceptor;
 import java.util.Objects;
 
 @Slf4j
-public class RedisLogInterceptor extends CacheInterceptor {
+public class CacheLogInterceptor extends CacheInterceptor {
 
     private final ObjectMapper objectMapper = SerializerUtil.objectMapper();
 
     @Override
     protected Cache.ValueWrapper doGet(Cache cache, Object key) {
-        doLog(cache, key);
+        doLog("doGet", cache, key, null);
         return super.doGet(cache, key);
     }
 
-    private void doLog(Cache cache, Object key) {
+    @Override
+    protected void doPut(Cache cache, Object key, Object result) {
+        doLog("doPut", cache, key, result);
+        super.doPut(cache, key, result);
+    }
+
+    private void doLog(String method, Cache cache, Object key, Object result) {
         final Object value = cache.get(key);
         final String cacheKey = key(key);
         final String cacheValue = value(value);
-        log.info("Cache name {} key {} value {}", cache.getName(), cacheKey, cacheValue);
+        log.info("Cache.{} name {} key {} value {} result {}", method, cache.getName(), cacheKey, cacheValue, result);
     }
 
     @SneakyThrows
