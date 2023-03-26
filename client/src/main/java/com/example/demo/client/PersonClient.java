@@ -18,4 +18,8 @@ public interface PersonClient {
     @Cacheable(value = "person-ehcache", key = "{#amount, #delay, #dataBase}", cacheManager = "ehCacheManager")
     List<PersonDto> getAllEhCache(@RequestParam(value = "amount", defaultValue = "10", required = false) int amount, @RequestParam(value = "delay", defaultValue = "0", required = false) int delay, String dataBase);
 
+    @GetMapping(value = "faker")
+    @Cacheable(value = "person-caffeine", key = "{#amount, #delay, #dataBase}", cacheManager = "caffeineCacheManager")
+    List<PersonDto> getAllCaffeine(@RequestParam(value = "amount", defaultValue = "10", required = false) int amount, @RequestParam(value = "delay", defaultValue = "0", required = false) int delay, String dataBase);
+
 }

@@ -58,3 +58,9 @@ cache:
   redisPassword: password
   expirations:
     person: 10m
+  redis:
+    enabled: true
+  ehcache:
+    enabled: false
+  caffeine:
+    enabled: true

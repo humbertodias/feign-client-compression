@@ -9,7 +9,7 @@ import java.util.Map;
 
 @ConfigurationProperties(prefix = "cache")
 @Data
-public class CacheConfigurationProperties {
+public class CacheProperties {
 
     private Duration ttl = Duration.ofSeconds(60);
     private int redisPort = 6379;

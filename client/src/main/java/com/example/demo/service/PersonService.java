@@ -40,6 +40,18 @@ public class PersonService {
         return CompletableFuture.completedFuture(personClient.getAllEhCache(amount, delay, dataBase()));
     }
 
+    public List<PersonDto> getAllRedis(int amount, int delay){
+        return personClient.getAllRedis(amount, delay, dataBase());
+    }
+
+    public List<PersonDto> getAllCaffeine(int amount, int delay){
+        return personClient.getAllCaffeine(amount, delay, dataBase());
+    }
+
+    public List<PersonDto> getAllEhCache(int amount, int delay){
+        return personClient.getAllEhCache(amount, delay, dataBase());
+    }
+
     public String getPersonClientUrl(){
         return personClientUrl;
     }

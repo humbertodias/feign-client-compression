@@ -2,6 +2,7 @@ package com.example.demo.config;
 
 
 import lombok.SneakyThrows;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
@@ -13,13 +14,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 
 @Configuration
-@EnableConfigurationProperties(CacheConfigurationProperties.class)
+@EnableConfigurationProperties(CacheProperties.class)
+@ConditionalOnProperty(prefix="cache.ehcache", name="enabled", havingValue="true")
 @EnableCaching
 public class EhCacheConfiguration extends CachingConfigurerSupport {
 
-    final CacheConfigurationProperties properties;
+    final CacheProperties properties;
 
-    public EhCacheConfiguration(CacheConfigurationProperties properties) {
+    public EhCacheConfiguration(CacheProperties properties) {
         this.properties = properties;
     }
 

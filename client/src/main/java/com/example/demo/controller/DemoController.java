@@ -26,33 +26,58 @@ public class DemoController {
     }
 
     @GetMapping("person")
-    List<PersonDto> getRandomPerson(@RequestParam(value = "amount", defaultValue = "10", required = false) int amount, @RequestParam(value = "delay", defaultValue = "0", required = false) int delay){
+    List<PersonDto> getRandomPerson(@RequestParam(value = "amount", defaultValue = "10", required = false) int amount, @RequestParam(value = "delay", defaultValue = "0", required = false) int delay) {
         return personService.getAll(amount, delay);
     }
 
     @GetMapping("person-sync")
     List<PersonDto> getRandomPersonSync() {
-        var one =  personService.getAll(99, 1000);
-        var two =  personService.getAll(99, 1000);
-        return Stream.concat(one.stream() , two.stream())
+        var one = personService.getAll(99, 1000);
+        var two = personService.getAll(99, 1000);
+        return Stream.concat(one.stream(), two.stream())
                 .collect(Collectors.toList());
     }
 
     @GetMapping("person-async")
     List<PersonDto> getRandomPersonAsync() throws ExecutionException, InterruptedException {
-        var one =  personService.getAllAsync(99, 1000);
-        var two =  personService.getAllAsync(99, 1000);
-        return Stream.concat(one.get().stream() , two.get().stream())
+        var one = personService.getAllAsync(99, 1000);
+        var two = personService.getAllAsync(99, 1000);
+        return Stream.concat(one.get().stream(), two.get().stream())
                 .collect(Collectors.toList());
     }
 
+    @GetMapping("person-redis")
+    List<PersonDto> getRandomPersonRedis() {
+        var one = personService.getAllRedis(99, 1000);
+        var two = personService.getAllRedis(99, 1000);
+        return Stream.concat(one.stream(), two.stream())
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("person-ehcache")
+    List<PersonDto> getRandomPersonEhCache() {
+        var one = personService.getAllEhCache(99, 1000);
+        var two = personService.getAllEhCache(99, 1000);
+        return Stream.concat(one.stream(), two.stream())
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("person-caffeine")
+    List<PersonDto> getRandomPersonCaffeine() {
+        var one = personService.getAllCaffeine(99, 1000);
+        var two = personService.getAllCaffeine(99, 1000);
+        return Stream.concat(one.stream(), two.stream())
+                .collect(Collectors.toList());
+    }
+
+
     @GetMapping("server-url")
-    public String getPersonClientUrl(){
+    public String getPersonClientUrl() {
         return personService.getPersonClientUrl();
     }
 
     @GetMapping("env")
-    public Map<String,String> getEnv(){
+    public Map<String, String> getEnv() {
         return System.getenv();
     }
 

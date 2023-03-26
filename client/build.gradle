@@ -52,6 +52,8 @@ dependencies {
 	// v2
 	// implementation 'net.sf.ehcache:ehcache:2.10.9.2'
 
+	// Caffeine
+	implementation "com.github.ben-manes.caffeine:caffeine"
 
 	// https://projectlombok.org
 	implementation 'org.projectlombok:lombok'

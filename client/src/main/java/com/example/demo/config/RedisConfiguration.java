@@ -3,11 +3,13 @@ package com.example.demo.config;
 import com.example.demo.interceptor.RedisLogInterceptor;
 import com.example.demo.util.SerializerUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.annotation.AnnotationCacheOperationSource;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.interceptor.CacheInterceptor;
 import org.springframework.cache.interceptor.CacheOperationSource;
+import org.springframework.cache.interceptor.CacheResolver;
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,7 +30,8 @@ import java.util.Map;
 
 @Slf4j
 @Configuration
-@EnableConfigurationProperties(CacheConfigurationProperties.class)
+@ConditionalOnProperty(prefix="cache.redis", name="enabled", havingValue="true")
+@EnableConfigurationProperties(CacheProperties.class)
 @EnableCaching
 public class RedisConfiguration {
 
@@ -51,7 +54,7 @@ public class RedisConfiguration {
     }
 
     @Bean
-    public LettuceConnectionFactory redisConnectionFactory(CacheConfigurationProperties properties) {
+    public LettuceConnectionFactory redisConnectionFactory(CacheProperties properties) {
         log.info("Redis (/lettuce) configuration enabled. With cache timeout {}", properties.getTtl());
 
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
@@ -80,13 +83,13 @@ public class RedisConfiguration {
     }
 
     @Bean
-    public RedisCacheConfiguration redisCacheConfiguration(CacheConfigurationProperties properties) {
+    public RedisCacheConfiguration redisCacheConfiguration(CacheProperties properties) {
         return createCacheConfiguration(properties.getTtl());
     }
 
     @Bean
     @Primary
-    public RedisCacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory, CacheConfigurationProperties properties) {
+    public RedisCacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory, CacheProperties properties) {
         Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
 
         for (Map.Entry<String, Duration> cacheNameAndTimeout : properties.getExpirations().entrySet()) {
@@ -119,6 +122,11 @@ public class RedisConfiguration {
     @Bean("customKeyGenerator")
     public KeyGenerator keyGenerator() {
         return new RedisCustomKeyGenerator();
+    }
+
+    @Bean
+    public CacheResolver customCacheResolver(RedisConnectionFactory redisConnectionFactory, CacheProperties properties) {
+        return new CustomCacheResolver(redisCacheManager(redisConnectionFactory, properties));
     }
 
 }
