@@ -1,13 +1,9 @@
-package com.example.demo.config;
+package com.example.demo.config.cache;
+
 
 import com.github.benmanes.caffeine.cache.Caffeine;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.CachingConfigurerSupport;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.caffeine.CaffeineCache;
 import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.annotation.Bean;
@@ -19,23 +15,24 @@ import java.util.List;
 
 @Configuration
 @EnableConfigurationProperties(CacheProperties.class)
-@ConditionalOnProperty(prefix="cache.caffeine", name="enabled", havingValue="true")
-@EnableCaching
 @Slf4j
-public class CaffeineConfiguration extends CachingConfigurerSupport {
-    @Autowired
-    CacheProperties properties;
+public class SimpleCacheConfiguration {
+
+    final CacheProperties properties;
+
+    public SimpleCacheConfiguration(CacheProperties properties) {
+        this.properties = properties;
+    }
 
 
-    @Bean("caffeineCacheManager")
-    public CacheManager caffeineCacheManager() {
+    @Bean("simpleCacheManager")
+    public SimpleCacheManager simpleCacheCacheManager() {
         final SimpleCacheManager cacheManager = new SimpleCacheManager();
 
         final List<CaffeineCache> caches = new ArrayList<>();
         for (var cacheNameAndTimeout : properties.getExpirations().entrySet()) {
-            final String name = cacheNameAndTimeout.getKey().concat("-caffeine");
-            log.info("Cache name {} expiration {}", name, cacheNameAndTimeout.getValue());
-            caches.add(buildCache(name, cacheNameAndTimeout.getValue()));
+            log.info("Cache name {} expiration {}", cacheNameAndTimeout.getKey(), cacheNameAndTimeout.getValue());
+            caches.add(buildCache(cacheNameAndTimeout.getKey(), cacheNameAndTimeout.getValue()));
         }
 
         cacheManager.setCaches(caches);
@@ -47,5 +44,6 @@ public class CaffeineConfiguration extends CachingConfigurerSupport {
                 .expireAfterWrite(ttl)
                 .build());
     }
+
 
 }

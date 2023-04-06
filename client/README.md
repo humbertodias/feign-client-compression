@@ -2,12 +2,28 @@
 
 ## Request
 
-    curl -I "http://localhost:9090/demo/person-sync?amount=999&delay=0"
 
-    curl -I "http://localhost:9090/demo/person-async?amount=999&delay=0"
+Redis
 
-    curl -I "http://localhost:9090/demo/person-redis?amount=999&delay=0"
+    curl -I "http://localhost:9090/demo/person?amount=999&delay=0&cacheManager=redisCacheManager"
 
-    curl -I "http://localhost:9090/demo/person-ehcache?amount=999&delay=0"
+http://localhost:8081/
 
-    curl -I "http://localhost:9090/demo/person-caffeine?amount=999&delay=0"
+hazelCastCacheManager
+
+    curl -I "http://localhost:9090/demo/person?amount=999&delay=0&cacheManager=hazelCastCacheManager"
+
+http://localhost:8080/clusters/dev/maps/person
+
+simpleCacheManager
+
+    curl -I "http://localhost:9090/demo/person?amount=999&delay=0&cacheManager=simpleCacheManager"
+
+caffeineCacheManager
+
+    curl -I "http://localhost:9090/demo/person?amount=999&delay=0&cacheManager=caffeineCacheManager"
+
+
+noCacheManager
+
+    curl -I "http://localhost:9090/demo/person?amount=999&delay=0&cacheManager=noCacheManager"

@@ -36,14 +36,7 @@ logging:
       springframework:
         cache: trace
 
-# Cache Config
 spring:
-  cache:
-#    type: redis
-#    type: jcache
-    jcache:
-      config: classpath:ehcache.xml
-
   main:
     allow-bean-definition-overriding: true
 
@@ -56,14 +49,10 @@ cache:
   redisHost: localhost
   redisPort: 6379
   redisPassword: password
+  hazelCastHost: localhost
+  hazelCastPort: 5701
+  hazelCastClusterName: dev
   expirations:
-    person: 5s
-    pet: 20s
-  redis:
-    enabled: true
-  ehcache:
-    enabled: true
-  caffeine:
-    enabled: false
+    person: 5m
 
 

@@ -6,14 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-//import reactor.core.publisher.Flux;
-//import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/demo")
@@ -26,72 +21,10 @@ public class DemoController {
     }
 
     @GetMapping("person")
-    List<PersonDto> getRandomPerson(@RequestParam(value = "amount", defaultValue = "10", required = false) int amount, @RequestParam(value = "delay", defaultValue = "0", required = false) int delay) {
-        return personService.getAll(amount, delay);
-    }
-
-    @GetMapping("person-sync")
-    List<PersonDto> getRandomPersonSync() {
-        var one = personService.getAll(99, 1000);
-        var two = personService.getAll(99, 1000);
-        return Stream.concat(one.stream(), two.stream())
-                .collect(Collectors.toList());
-    }
-
-    @GetMapping("person-async")
-    List<PersonDto> getRandomPersonAsync() throws ExecutionException, InterruptedException {
-        var one = personService.getAllAsync(99, 1000);
-        var two = personService.getAllAsync(99, 1000);
-        return Stream.concat(one.get().stream(), two.get().stream())
-                .collect(Collectors.toList());
-    }
-
-    @GetMapping("person-redis")
-    List<PersonDto> getRandomPersonRedis() {
-        var one = personService.getAllPersonRedis(99, 1000);
-        var two = personService.getAllPersonRedis(99, 1000);
-        return Stream.concat(one.stream(), two.stream())
-                .collect(Collectors.toList());
-    }
-
-    @GetMapping("pet-redis")
-    List<PersonDto> getRandomPetRedis() {
-        var one = personService.getAllPetRedis(99, 1000);
-        var two = personService.getAllPetRedis(99, 1000);
-        return Stream.concat(one.stream(), two.stream())
-                .collect(Collectors.toList());
-    }
-    @GetMapping("person-ehcache")
-    List<PersonDto> getRandomPersonEhCache() {
-        var one = personService.getAllPersonEhCache(99, 1000);
-        var two = personService.getAllPersonEhCache(99, 1000);
-        return Stream.concat(one.stream(), two.stream())
-                .collect(Collectors.toList());
-    }
-
-    @GetMapping("pet-ehcache")
-    List<PersonDto> getRandomPetEhCache() {
-        var one = personService.getAllPetEhCache(99, 1000);
-        var two = personService.getAllPetEhCache(99, 1000);
-        return Stream.concat(one.stream(), two.stream())
-                .collect(Collectors.toList());
-    }
-
-    @GetMapping("person-caffeine")
-    List<PersonDto> getRandomPersonCaffeine() {
-        var one = personService.getAllPersonCaffeine(99, 1000);
-        var two = personService.getAllPersonCaffeine(99, 1000);
-        return Stream.concat(one.stream(), two.stream())
-                .collect(Collectors.toList());
-    }
-
-
-    @GetMapping("pet-caffeine")
-    List<PersonDto> getRandomPetCaffeine() {
-        var one = personService.getAllPetCaffeine(99, 1000);
-        var two = personService.getAllPetCaffeine(99, 1000);
-        return Stream.concat(one.stream(), two.stream())
-                .collect(Collectors.toList());
+    List<PersonDto> getPersonSync(@RequestParam(value = "amount", defaultValue = "10", required = false) int amount,
+                                  @RequestParam(value = "delay", defaultValue = "0", required = false) int delay,
+                                  @RequestParam(value = "cacheManager", defaultValue = "noCacheConfiguration", required = false) String cacheManager) {
+        return personService.getPersonSync(amount, delay, cacheManager);
     }
 
     @GetMapping("server-url")
@@ -102,16 +35,6 @@ public class DemoController {
     @GetMapping("env")
     public Map<String, String> getEnv() {
         return System.getenv();
-    }
-
-    @GetMapping("caches")
-    public Map<Object, Map> getCaches() {
-        return personService.getCaches();
-    }
-
-    @GetMapping("cache-clean")
-    public void cleanCache() {
-        personService.cleanCache();
     }
 
 //    @GetMapping("person-async-flux")

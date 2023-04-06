@@ -5,6 +5,8 @@ run:
 	DOCKER_BUILDKIT=0 docker-compose up
 stop:
 	docker-compose down -v --remove-orphans
-clean:
+rmi:	stop
+	docker images --filter "dangling=true" -q | xargs -r docker rmi -f
+	docker images --filter=reference="feign-client-compression*" -q | xargs -r docker rmi -f
+clean:	rmi
 	gradle clean
-	docker rmi feign-client-compression-client feign-client-compression-server -f

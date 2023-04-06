@@ -1,8 +1,8 @@
 plugins {
 	id 'java'
 // Jvm
-//	id 'org.springframework.boot' version '3.0.5'
-	id 'org.springframework.boot' version '2.7.0'
+	id 'org.springframework.boot' version '3.0.5'
+//	id 'org.springframework.boot' version '2.7.10'
 	id 'io.spring.dependency-management' version '1.1.0'
 // Native
 //	id 'org.graalvm.buildtools.native' version '0.9.20'
@@ -10,7 +10,7 @@ plugins {
 
 group = 'com.example.server'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 11
+sourceCompatibility = 17
 
 repositories {
 	mavenCentral()
@@ -23,8 +23,8 @@ dependencies {
 //	implementation 'org.springframework.boot:spring-boot-starter-jetty'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	// jaeger
-	implementation 'io.github.openfeign.opentracing:feign-opentracing:0.4.1'
-	implementation 'io.opentracing.contrib:opentracing-spring-jaeger-web-starter:3.3.1'
+//	implementation 'io.github.openfeign.opentracing:feign-opentracing:0.4.1'
+//	implementation 'io.opentracing.contrib:opentracing-spring-jaeger-web-starter'
 
 	// https://mvnrepository.com/artifact/org.springframework/spring-context-indexer
 	implementation 'org.springframework:spring-context-indexer'
