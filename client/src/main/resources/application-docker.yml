@@ -43,14 +43,3 @@ spring:
   cloud:
     config:
       enabled: false
-
-cache:
-  ttl: 5m
-  redisHost: redis
-  redisPort: 6379
-  redisPassword: password
-  hazelCastHost: hazelcast
-  hazelCastPort: 5701
-  hazelCastClusterName: dev
-  expirations:
-    person: 5s

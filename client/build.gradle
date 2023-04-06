@@ -36,21 +36,8 @@ dependencies {
 	implementation 'io.github.openfeign:feign-httpclient:12.1'
 
 	// jaeger
-	//implementation 'io.opentracing.contrib:opentracing-spring-jaeger-web-starter:3.3.1'
-	//implementation 'io.github.openfeign.opentracing:feign-opentracing:0.4.1'
-
-	// cache
-	implementation "org.springframework.boot:spring-boot-starter-cache"
-
-	// redis
-	implementation 'org.springframework.data:spring-data-redis'
-	implementation "io.lettuce:lettuce-core"
-
-	// Caffeine
-	implementation "com.github.ben-manes.caffeine:caffeine"
-
-	// Hazelcast
-	implementation 'com.hazelcast:hazelcast-all:4.2.7'
+	implementation 'io.opentracing.contrib:opentracing-spring-jaeger-web-starter:3.3.1'
+	implementation 'io.github.openfeign.opentracing:feign-opentracing:0.4.1'
 
 	// https://projectlombok.org
 	implementation 'org.projectlombok:lombok'
